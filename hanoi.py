@@ -1,33 +1,34 @@
-def torre_hanoi(n, origen, auxiliar, destino):
-    try:
-        # Validar que n sea un número entero positivo
-        if not isinstance(n, int) or n <= 0:
-            raise ValueError("El número de discos debe ser un entero positivo.")
+# Torres de Hanoi con recursividad
+# Cumple con numeración de pasos y total de movimientos
 
-        # Caso base: si solo hay un disco, lo movemos directamente
-        if n == 1:
-            print(f"Mover disco 1 de {origen} a {destino}")
-            return
+paso = 0  # variable global para contar pasos
 
-        # Paso recursivo: mover n-1 discos a la torre auxiliar
-        torre_hanoi(n-1, origen, destino, auxiliar)
-
-        # Mover el disco más grande a la torre destino
-        print(f"Mover disco {n} de {origen} a {destino}")
-
-        # Mover los n-1 discos desde auxiliar hasta destino
-        torre_hanoi(n-1, auxiliar, origen, destino)
-
-    except RecursionError:
-        print("Error: se ha alcanzado el límite máximo de recursión.")
-    except ValueError as ve:
-        print(f"Error de valor: {ve}")
-    except Exception as e:
-        print(f"Ocurrió un error inesperado: {e}")
+def hanoi(n, torre1, torre2, torre3): #define variables 
+    global paso
+    if n == 1:
+        paso += 1
+        print(f"Paso {paso}: mover disco desde {torre1} hacia {torre3}")
+        return
+    
+    # mover n-1 discos de torre1 a torre2
+    hanoi(n - 1, torre1, torre3, torre2)
+    
+    # mover el disco más grande
+    paso += 1
+    print(f"Paso {paso}: mover disco desde {torre1} hacia {torre3}")
+    
+    # mover n-1 discos de torre2 a torre3
+    hanoi(n - 1, torre2, torre1, torre3)
 
 
-# Ejemplo correcto: resolver la torre de Hanoi con 3 discos
-torre_hanoi(3, "A", "B", "C")
-
-# Ejemplo con error: pasar un valor incorrecto
-torre_hanoi(-2, "A", "B", "C")
+# Bloque principal
+try:
+    cantidad = int(input("¿Cuántos discos quieres mover? (1-20): "))
+    if cantidad < 1 or cantidad > 20:
+        print("El número de discos debe estar entre 1 y 20.")
+    else:
+        hanoi(cantidad, "A", "B", "C")
+        total = 2**cantidad - 1 # num movimientosm por num de discos formula
+        print(f"\nTotal de movimientos: {paso} (esperado: {total})")
+except ValueError:
+    print("Error: Ingresa un número entero válido.")
