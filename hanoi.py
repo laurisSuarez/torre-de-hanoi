@@ -32,3 +32,7 @@ try:
         print(f"\nTotal de movimientos: {paso} (esperado: {total})")
 except ValueError:
     print("Error: Ingresa un número entero válido.")
+        total = 2**cantidad - 1 # num movimientosm por num de discos formula
+        print(f"\nTotal de movimientos: {paso} (esperado: {total})")
+except ValueError:
+    print("Error: Ingresa un número entero válido.")
